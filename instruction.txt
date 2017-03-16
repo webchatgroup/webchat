@@ -7,3 +7,5 @@ git config --global http.proxy http://pxsait4.srv.volvo.com:8080
 4.Push to server
 
 5.Delete
+
+6.hahaha
