@@ -1,0 +1,7 @@
+1.Download the github software 
+2.Configure the proxy
+git config --global http.proxy http://pxsait4.srv.volvo.com:8080
+
+3.Commit
+
+4.Push to server
