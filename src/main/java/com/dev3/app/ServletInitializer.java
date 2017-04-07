@@ -1,4 +1,4 @@
-package com.volvo.it.vgas;
+package com.dev3.app;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
