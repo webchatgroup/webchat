@@ -1,6 +1,6 @@
 Build Development Environment
 ========================================
-1. Download [JDK]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+1. Download [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html "JDK")
 2. Install JDK: (for example: jdk-8u121-linux-x64.tar.gz)
 
     `sudo tar -zxf jdk-8u121-linux-x64.tar.gz -C /usr/lib/jvm`
