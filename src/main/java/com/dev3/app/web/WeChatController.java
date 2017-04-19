@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dev3.app.entity.MessageType;
 import com.dev3.app.entity.TextMessage;
-import com.dev3.app.repositories.TextMessageRepository;
+//import com.dev3.app.repositories.TextMessageRepository;
 
 @Controller
 @RequestMapping("wechat")
@@ -24,7 +24,7 @@ public class WeChatController {
 	private Logger logger = Logger.getLogger(WeChatController.class);
 
 	@Autowired
-	private TextMessageRepository textMessageRepository;
+	private com.dev3.app.repositoriy.TextMessageRepository textMessageRepository;
 
 	@RequestMapping(method = { RequestMethod.GET }, produces = "application/json;charset=UTF-8")
 	public void validate(WeChatTokenInfo tokenInfo, PrintWriter out) {
@@ -35,7 +35,7 @@ public class WeChatController {
 	}
 
 	@ResponseBody
-	@RequestMapping(method = { RequestMethod.POST })
+	@RequestMapping(method = { RequestMethod.GET })
 	public void processMessage(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");

@@ -1,4 +1,4 @@
-package com.dev3.app.repositories;
+package com.dev3.app.repositoriy;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
