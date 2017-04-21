@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dev3.app.entity.AbstractMessage;
+import com.dev3.app.handler.IMessageHandler;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dev3.app.entity.MessageType;
 import com.dev3.app.entity.TextMessage;
+import org.springframework.web.context.ContextLoader;
 //import com.dev3.app.repositories.TextMessageRepository;
 
 @Controller
@@ -41,16 +44,17 @@ public class WeChatController {
 		response.setCharacterEncoding("UTF-8");
 		String responseMessage = "Ok";
 
-		TextMessage messageReceived = getParsedTextMessage(request);
+		AbstractMessage messageReceived = getParsedAbstractMessage(request);
+        IMessageHandler messageHandler = (IMessageHandler)ContextLoader.getCurrentWebApplicationContext().getBean(messageReceived.getMsgType());
 
 		// Message Processing
 		if (MessageType.MESSAGE_TEXT.equals(messageReceived.getMsgType())) {
 
 			// Persist Message from sender
-			textMessageRepository.save(messageReceived);
+			//textMessageRepository.save(messageReceived);
 
 			// Generate Response Message
-			responseMessage = generateResponseMessage(messageReceived);
+			//responseMessage = generateResponseMessage(messageReceived);
 		}
 
 		PrintWriter out = response.getWriter();
@@ -70,6 +74,28 @@ public class WeChatController {
 		textMessage.setContent("Hi guys, Welcome!!!");
 		String responseMessage = WeChatMessageUtil.textMessageToXml(textMessage);
 		return responseMessage;
+	}
+
+	private AbstractMessage getParsedAbstractMessage(HttpServletRequest request) {
+		Map<String, String> map = WeChatMessageUtil.xmlToMap(request);
+		// OpenId of sender
+		String fromUserName = map.get("FromUserName");
+		// OpenId of WeChat public No.
+		String toUserName = map.get("ToUserName");
+		// Message type
+		String msgType = map.get("MsgType");
+		// Message Id from WeChat
+		String msgId = map.get("MsgId");
+		// Message content from sender
+		String msgContent = map.get("Content");
+
+		AbstractMessage messageReceived = new TextMessage();
+		messageReceived.setMsgType(msgType);
+		messageReceived.setCreateTime(System.currentTimeMillis());
+		messageReceived.setFromUserName(fromUserName);
+		messageReceived.setToUserName(toUserName);
+
+		return messageReceived;
 	}
 
 	private TextMessage getParsedTextMessage(HttpServletRequest request) {
