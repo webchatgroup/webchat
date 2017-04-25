@@ -1,9 +1,20 @@
 package com.dev3.app.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.io.Serializable;
+
 /**
  * Created by A022713 on 2017/4/21.
  */
-public abstract class AbstractMessage {
+@Entity
+public abstract class AbstractMessage implements Serializable {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long Id;
+
     /**
      * 开发者微信号
      */
@@ -20,6 +31,14 @@ public abstract class AbstractMessage {
      * 消息类型
      */
     private String MsgType;
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
 
     public String getToUserName() {
         return ToUserName;

@@ -4,13 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Entity
-public class TextMessage extends AbstractMessage {
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long Id;
-
+public class TextMessage extends AbstractMessage implements Serializable {
 	/**
 	 * 消息id，64位整型
 	 */
@@ -20,15 +17,6 @@ public class TextMessage extends AbstractMessage {
 	 * 文本消息内容
 	 */
 	private String Content;
-	
-	
-	public Long getId() {
-		return Id;
-	}
-
-	public void setId(Long id) {
-		Id = id;
-	}
 
 	public String getMsgId() {
 		return MsgId;
