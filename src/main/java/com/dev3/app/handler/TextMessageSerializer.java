@@ -1,22 +1,27 @@
 package com.dev3.app.handler;
 
-import com.dev3.app.entity.MessageType;
 import com.dev3.app.entity.TextMessage;
 import com.dev3.app.web.WeChatMessageUtil;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
- * Created by A022713 on 2017/4/25.
+ * Created by igouz on 2017/4/28.
  */
-@Component(MessageType.MESSAGE_TEXT)
-public class TextMessageParser implements IMessageParser<TextMessage> {
+@Component
+public class TextMessageSerializer implements IMessageSerializer<TextMessage> {
     @Override
-    public TextMessage parse(HttpServletRequest request) {
+    public void serialize(TextMessage message, HttpServletResponse response) {
+
+    }
+
+    @Override
+    public TextMessage deserialize(HttpServletRequest request) {
         Map<String, String> map = WeChatMessageUtil.xmlToMap(request);
+        
         // OpenId of sender
         String fromUserName = map.get("FromUserName");
         // OpenId of WeChat public No.
@@ -34,6 +39,7 @@ public class TextMessageParser implements IMessageParser<TextMessage> {
         textMessageReceived.setFromUserName(fromUserName);
         textMessageReceived.setToUserName(toUserName);
         textMessageReceived.setMsgId(msgId);
+
         return textMessageReceived;
     }
 }

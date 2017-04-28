@@ -3,9 +3,8 @@ package com.dev3.app.processor;
 import com.dev3.app.entity.AbstractMessage;
 import com.dev3.app.entity.TextMessage;
 import com.dev3.app.handler.IMessageHandler;
-import com.dev3.app.handler.IMessageParser;
+import com.dev3.app.handler.IMessageSerializer;
 import com.dev3.app.web.WeChatMessageUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.ContextLoader;
 
@@ -27,10 +26,12 @@ public class MessageProcessor extends AbsMessageProcessor {
 
         if (message != null) {
             IMessageHandler messageHandler = ContextLoader.getCurrentWebApplicationContext().getBean(message.getMsgType(), IMessageHandler.class);
-            IMessageParser messageParser = ContextLoader.getCurrentWebApplicationContext().getBean(message.getMsgType(), IMessageParser.class);
 
             if (messageHandler != null) {
-                messageHandler.handle(messageParser.parse(request));
+                IMessageSerializer inMessageSerializer = messageHandler.getIncomingSerializer();
+                IMessageSerializer outMessageSerializer = messageHandler.getOutgoingSerializer();
+
+                outMessageSerializer.serialize(messageHandler.handle(inMessageSerializer.deserialize(request)), response);
             }
         }
 
