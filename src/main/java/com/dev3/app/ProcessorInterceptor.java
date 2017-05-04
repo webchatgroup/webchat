@@ -40,11 +40,13 @@ public class ProcessorInterceptor {
         Method method = signature.getMethod();
         String methodName = method.getName();
 
-        logger.info("Intercept method: %1$s.%2$s", pjp.getThis().getClass().getName(), methodName);
+        logger.info(String.format("Intercept method: %1$s.%2$s", pjp.getThis().getClass().getName(), methodName));
 
         try {
             result = pjp.proceed();
         } catch (Throwable e) {
+            logger.error(String.format("Exception: %1$s\n", e.getLocalizedMessage()));
+            e.printStackTrace();
         }
 
         return result;

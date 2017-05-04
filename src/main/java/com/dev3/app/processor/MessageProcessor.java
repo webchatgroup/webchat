@@ -1,5 +1,6 @@
 package com.dev3.app.processor;
 
+import com.dev3.app.SpringUtils;
 import com.dev3.app.entity.AbstractMessage;
 import com.dev3.app.entity.TextMessage;
 import com.dev3.app.handler.IMessageHandler;
@@ -7,9 +8,11 @@ import com.dev3.app.handler.IMessageSerializer;
 import com.dev3.app.web.WeChatMessageUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -25,13 +28,18 @@ public class MessageProcessor extends AbsMessageProcessor {
         AbstractMessage message = this.getParsedAbstractMessage(request);
 
         if (message != null) {
-            IMessageHandler messageHandler = ContextLoader.getCurrentWebApplicationContext().getBean(message.getMsgType(), IMessageHandler.class);
+            WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
+
+            IMessageHandler messageHandler = SpringUtils.getBean(message.getMsgType(), IMessageHandler.class);
 
             if (messageHandler != null) {
                 IMessageSerializer inMessageSerializer = messageHandler.getIncomingSerializer();
                 IMessageSerializer outMessageSerializer = messageHandler.getOutgoingSerializer();
 
-                outMessageSerializer.serialize(messageHandler.handle(inMessageSerializer.deserialize(request)), response);
+                Serializable incomingMessage = inMessageSerializer.deserialize(request);
+                Serializable outgoingMessage = messageHandler.handle(incomingMessage);
+
+                outMessageSerializer.serialize(outgoingMessage, response);
             }
         }
 

@@ -43,7 +43,7 @@ public class ControllerInterceptor {
         Object result = null;
 
         try {
-            logger.info("Auditing %1$s", methodName);
+            logger.info(String.format("Auditing %1$s", methodName));
 
             Set<Object> allParams = new LinkedHashSet<>();
             Object[] args = pjp.getArgs();
@@ -59,13 +59,13 @@ public class ControllerInterceptor {
                 }
             }
 
-            logger.info("Invoking %1$s", methodName);
+            logger.info(String.format("Invoking %1$s", methodName));
 
             result = pjp.proceed();
         } catch (Throwable e) {
-            logger.warn("%1$s exception: %2$s\n", methodName, e.getMessage());
+            logger.warn(String.format("%1$s exception: %2$s\n", methodName, e.getMessage()));
         } finally {
-            logger.info("Done %1$s in %2$s ms.", methodName, System.currentTimeMillis() - beginTime);
+            logger.info(String.format("Done %1$s in %2$s ms.", methodName, System.currentTimeMillis() - beginTime));
         }
 
         return result;

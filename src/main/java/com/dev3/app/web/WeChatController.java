@@ -29,7 +29,7 @@ public class WeChatController {
     @Autowired
     private TextMessageRepository textMessageRepository;
 
-    @RequestMapping(method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @RequestMapping(method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
     public void validate(WeChatTokenInfo tokenInfo, PrintWriter out) {
         String echostr = tokenInfo.getEchostr();
         out.print(echostr);
@@ -38,7 +38,7 @@ public class WeChatController {
     }
 
     @ResponseBody
-    @RequestMapping(method = {RequestMethod.GET})
+    @RequestMapping(method = {RequestMethod.POST})
     public void processMessage(HttpServletRequest request, HttpServletResponse response) throws IOException {
         messageProcessor.process(request, response, null);
 
