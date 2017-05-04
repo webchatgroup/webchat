@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
  * Created by A022713 on 2017/4/21.
  */
 @Service(MessageType.MESSAGE_TEXT)
-public class TextMessageHandler extends AbsMessageHandler<TextMessage, TextMessage> {
+public class TextMessageHandler implements IMessageHandler<AbstractMessage, TextMessage> {
     @Override
-    public TextMessage handle(TextMessage message) {
+    public TextMessage handle(AbstractMessage message) {
         return null;
     }
 }

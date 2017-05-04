@@ -32,6 +32,8 @@ public abstract class AbstractMessage implements Serializable {
      */
     private String MsgType;
 
+    private String RawMessage;
+
     public Long getId() {
         return Id;
     }
@@ -70,5 +72,13 @@ public abstract class AbstractMessage implements Serializable {
 
     public void setMsgType(String msgType) {
         MsgType = msgType;
+    }
+
+    public String getRawMessage() {
+        return RawMessage;
+    }
+
+    public void setRawMessage(String rawMessage) {
+        RawMessage = rawMessage;
     }
 }
