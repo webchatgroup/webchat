@@ -1,15 +1,14 @@
 package com.dev3.app.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * Created by A022713 on 2017/4/21.
  */
 @Entity
+@Table(name = "message")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class AbstractMessage implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

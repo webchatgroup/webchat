@@ -1,12 +1,11 @@
 package com.dev3.app.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Table(name = "TextMessage")
+@PrimaryKeyJoinColumn(name = "TextMessageId")
 public class TextMessage extends AbstractMessage implements Serializable {
 	/**
 	 * 消息id，64位整型

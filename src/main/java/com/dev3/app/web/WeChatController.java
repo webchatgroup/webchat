@@ -72,39 +72,7 @@ public class WeChatController {
         */
     }
 
-    private String generateResponseMessage(TextMessage messageReceived) {
-        TextMessage textMessage = new TextMessage();
-        textMessage.setMsgType(MessageType.MESSAGE_TEXT);
-        textMessage.setToUserName(messageReceived.getFromUserName());
-        textMessage.setFromUserName(messageReceived.getToUserName());
-        textMessage.setCreateTime(System.currentTimeMillis());
-        textMessage.setMsgId(messageReceived.getId().toString());
-        textMessage.setContent("Hi guys, Welcome!!!");
-        String responseMessage = WeChatMessageUtil.textMessageToXml(textMessage);
-        return responseMessage;
-    }
-
     /* Moved to com.dev3.app.handler.TextMessageParser
-    private TextMessage getParsedTextMessage(HttpServletRequest request) {
-        Map<String, String> map = WeChatMessageUtil.xmlToMap(request);
-        // OpenId of sender
-        String fromUserName = map.get("FromUserName");
-        // OpenId of WeChat public No.
-        String toUserName = map.get("ToUserName");
-        // Message type
-        String msgType = map.get("MsgType");
-        // Message Id from WeChat
-        String msgId = map.get("MsgId");
-        // Message content from sender
-        String msgContent = map.get("Content");
-        TextMessage textMessageReceived = new TextMessage();
-        textMessageReceived.setContent(msgContent);
-        textMessageReceived.setMsgType(msgType);
-        textMessageReceived.setCreateTime(System.currentTimeMillis());
-        textMessageReceived.setFromUserName(fromUserName);
-        textMessageReceived.setToUserName(toUserName);
-        textMessageReceived.setMsgId(msgId);
-        return textMessageReceived;
-    }
+
     */
 }

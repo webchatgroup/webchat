@@ -31,7 +31,7 @@ public class MessageProcessor extends AbsMessageProcessor {
     protected void processRequestResponse(HttpServletRequest request, HttpServletResponse response, MessageProcessorIndicator indicator) {
         String content = this.getContentFromRequest(request);
 
-        AbstractMessage requestMessage = this.getParsedAbstractMessage(content);
+        AbstractMessage requestMessage = this.getAbstractMessageFromContent(content);
 
         if (requestMessage != null) {
             IMessageHandler messageHandler = SpringUtils.getBean(requestMessage.getMsgType(), IMessageHandler.class);
@@ -84,7 +84,7 @@ public class MessageProcessor extends AbsMessageProcessor {
         }
     }
 
-    private AbstractMessage getParsedAbstractMessage(String content) {
+    private AbstractMessage getAbstractMessageFromContent(String content) {
         Map<String, String> map = WeChatMessageUtil.xmlToMap(content);
 
         String fromUserName = map.get("FromUserName");
@@ -105,7 +105,6 @@ public class MessageProcessor extends AbsMessageProcessor {
     }
 
     private String getContentFromAbstractMessage(AbstractMessage message) {
-        String responseMessage = WeChatMessageUtil.textMessageToXml(message, AbstractMessage.class);
-        return responseMessage;
+        return message.getRawMessage();
     }
 }
