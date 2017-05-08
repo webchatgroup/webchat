@@ -4,7 +4,6 @@ import com.dev3.app.entity.AbstractMessage;
 import com.dev3.app.entity.MessageType;
 import com.dev3.app.entity.TextMessage;
 import com.dev3.app.web.WeChatMessageUtil;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
