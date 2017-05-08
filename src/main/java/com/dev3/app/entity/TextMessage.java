@@ -1,11 +1,13 @@
 package com.dev3.app.entity;
 
+import com.thoughtworks.xstream.annotations.XStreamInclude;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "TextMessage")
-@PrimaryKeyJoinColumn(name = "TextMessageId")
+@PrimaryKeyJoinColumn(name = "MessageId")
 public class TextMessage extends AbstractMessage implements Serializable {
 	/**
 	 * 消息id，64位整型

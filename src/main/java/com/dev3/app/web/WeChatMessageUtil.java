@@ -10,6 +10,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.dev3.app.entity.AbstractMessage;
+import com.thoughtworks.xstream.io.xml.Dom4JDriver;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -96,10 +98,9 @@ public class WeChatMessageUtil {
      * @return
      */
     public static <M> String textMessageToXml(M textMessage, Class<?> clazz) {
-        XStream xstream = new XStream();
+        XStream xstream = new XStream(new Dom4JDriver());
         xstream.alias("xml", clazz);
         return xstream.toXML(textMessage);
-
     }
 
 }

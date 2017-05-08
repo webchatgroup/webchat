@@ -1,5 +1,7 @@
 package com.dev3.app.entity;
 
+import com.thoughtworks.xstream.annotations.XStreamInclude;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
