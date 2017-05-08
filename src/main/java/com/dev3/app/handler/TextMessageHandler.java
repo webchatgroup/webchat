@@ -29,6 +29,8 @@ public class TextMessageHandler implements IMessageHandler<AbstractMessage, Abst
             this.textMessageRepository.save(requestMessage);
 
             replyMessage = this.getReplyTextMessage(requestMessage);
+
+            this.textMessageRepository.save(replyMessage);
         }
 
         return replyMessage;
@@ -63,7 +65,7 @@ public class TextMessageHandler implements IMessageHandler<AbstractMessage, Abst
         replyMessage.setFromUserName(requestMessage.getToUserName());
         replyMessage.setCreateTime(System.currentTimeMillis());
         replyMessage.setMsgId(UUID.randomUUID().toString());
-        replyMessage.setContent(String.format("Reply: %1$s", requestMessage.getContent()));
+        replyMessage.setContent(String.format("回复: %1$s", requestMessage.getContent()));
         replyMessage.setRawMessage(WeChatMessageUtil.textMessageToXml(replyMessage, TextMessage.class));
 
         return replyMessage;

@@ -75,6 +75,10 @@ public class MessageProcessor extends AbsMessageProcessor {
 
     private void putContentToResponse(HttpServletResponse response, String content) {
         try {
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("text/xml;charset=utf-8");
+            response.setHeader("Cache-control", "no-cache");
+
             PrintWriter out = response.getWriter();
             out.print(content);
             out.flush();
