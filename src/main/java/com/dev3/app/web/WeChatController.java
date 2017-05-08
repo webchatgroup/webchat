@@ -26,9 +26,6 @@ public class WeChatController {
     @Autowired
     private IMessageProcessor messageProcessor;
 
-    @Autowired
-    private TextMessageRepository textMessageRepository;
-
     @RequestMapping(method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
     public void validate(WeChatTokenInfo tokenInfo, PrintWriter out) {
         String echostr = tokenInfo.getEchostr();

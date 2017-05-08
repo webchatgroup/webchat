@@ -3,6 +3,7 @@ package com.dev3.app.handler;
 import com.dev3.app.entity.AbstractMessage;
 import com.dev3.app.entity.MessageType;
 import com.dev3.app.entity.TextMessage;
+import com.dev3.app.repositoriy.TextMessageRepository;
 import com.dev3.app.web.WeChatMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,20 @@ import java.util.UUID;
  */
 @Service(MessageType.MESSAGE_TEXT)
 public class TextMessageHandler implements IMessageHandler<AbstractMessage, AbstractMessage> {
+    @Autowired
+    private TextMessageRepository textMessageRepository;
+
     @Override
     public AbstractMessage handle(AbstractMessage message) {
-        TextMessage requestMessage = this.getParsedTextMessage(message.getRawMessage());
-        TextMessage replyMessage = this.getReplyTextMessage(requestMessage);
+        TextMessage requestMessage = null, replyMessage = null;
+
+        requestMessage = this.getParsedTextMessage(message.getRawMessage());
+
+        if (requestMessage != null) {
+            this.textMessageRepository.save(requestMessage);
+
+            replyMessage = this.getReplyTextMessage(requestMessage);
+        }
 
         return replyMessage;
     }
