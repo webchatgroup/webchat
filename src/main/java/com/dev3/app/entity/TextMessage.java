@@ -17,6 +17,7 @@ public class TextMessage extends AbstractMessage implements Serializable {
 	/**
 	 * 文本消息内容
 	 */
+	@Column(length = 4000)
 	private String Content;
 
 	public String getMsgId() {

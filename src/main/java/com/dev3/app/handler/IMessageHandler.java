@@ -7,6 +7,6 @@ import java.io.Serializable;
 /**
  * Created by A022713 on 2017/4/21.
  */
-public interface IMessageHandler <I extends AbstractMessage, O extends AbstractMessage> {
-    O handle(I message);
+public interface IMessageHandler {
+    AbstractMessage handle(AbstractMessage message);
 }

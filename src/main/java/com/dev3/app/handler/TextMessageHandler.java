@@ -6,6 +6,7 @@ import com.dev3.app.entity.TextMessage;
 import com.dev3.app.repositoriy.TextMessageRepository;
 import com.dev3.app.web.WeChatMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -15,46 +16,23 @@ import java.util.UUID;
  * Created by A022713 on 2017/4/21.
  */
 @Service(MessageType.MESSAGE_TEXT)
-public class TextMessageHandler implements IMessageHandler<AbstractMessage, AbstractMessage> {
-    @Autowired
-    private TextMessageRepository textMessageRepository;
+public class TextMessageHandler extends AbsMessageHandler<TextMessage, TextMessage> {
+    //@Autowired
+    //private TextMessageRepository textMessageRepository;
 
     @Override
-    public AbstractMessage handle(AbstractMessage message) {
-        TextMessage requestMessage = null, replyMessage = null;
-
-        requestMessage = this.getParsedTextMessage(message.getRawMessage());
+    public TextMessage handleMessage(TextMessage message) {
+        TextMessage requestMessage = message, responseMessage = null;
 
         if (requestMessage != null) {
-            this.textMessageRepository.save(requestMessage);
+            //this.textMessageRepository.save(requestMessage);
 
-            replyMessage = this.getReplyTextMessage(requestMessage);
+            responseMessage = this.getReplyTextMessage(requestMessage);
 
-            this.textMessageRepository.save(replyMessage);
+            //this.textMessageRepository.save(responseMessage);
         }
 
-        return replyMessage;
-    }
-
-    private TextMessage getParsedTextMessage(String content) {
-        Map<String, String> map = WeChatMessageUtil.xmlToMap(content);
-
-        String fromUserName = map.get("FromUserName");
-        String toUserName = map.get("ToUserName");
-        String msgType = map.get("MsgType");
-        String msgId = map.get("MsgId");
-        String msgContent = map.get("Content");
-
-        TextMessage textMessageReceived = new TextMessage();
-
-        textMessageReceived.setContent(msgContent);
-        textMessageReceived.setMsgType(msgType);
-        textMessageReceived.setCreateTime(System.currentTimeMillis());
-        textMessageReceived.setFromUserName(fromUserName);
-        textMessageReceived.setToUserName(toUserName);
-        textMessageReceived.setMsgId(msgId);
-
-        return textMessageReceived;
+        return responseMessage;
     }
 
     private TextMessage getReplyTextMessage(TextMessage requestMessage) {

@@ -4,6 +4,7 @@ import com.dev3.app.SpringUtils;
 import com.dev3.app.entity.AbstractMessage;
 import com.dev3.app.entity.MessageType;
 import com.dev3.app.entity.TextMessage;
+import com.dev3.app.handler.AbsMessageHandler;
 import com.dev3.app.handler.IMessageHandler;
 import com.dev3.app.web.WeChatMessageUtil;
 import org.dom4j.Document;
@@ -31,12 +32,14 @@ public class MessageProcessor extends AbsMessageProcessor {
     protected void processRequestResponse(HttpServletRequest request, HttpServletResponse response, MessageProcessorIndicator indicator) {
         String content = this.getContentFromRequest(request);
 
-        AbstractMessage requestMessage = this.getAbstractMessageFromContent(content);
+        AbstractMessage requestMessage = AbstractMessage.parse(content);
 
         if (requestMessage != null) {
-            IMessageHandler messageHandler = SpringUtils.getBean(requestMessage.getMsgType(), IMessageHandler.class);
+            AbsMessageHandler messageHandler = SpringUtils.getBean(requestMessage.getMsgType(), AbsMessageHandler.class);
 
             if (messageHandler != null) {
+                messageHandler.setHandler(messageHandler);
+
                 AbstractMessage responseMessage = messageHandler.handle(requestMessage);
 
                 if (responseMessage != null) {
@@ -86,26 +89,6 @@ public class MessageProcessor extends AbsMessageProcessor {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-    }
-
-    private AbstractMessage getAbstractMessageFromContent(String content) {
-        Map<String, String> map = WeChatMessageUtil.xmlToMap(content);
-
-        String fromUserName = map.get("FromUserName");
-        String toUserName = map.get("ToUserName");
-        String msgType = map.get("MsgType");
-        String msgId = map.get("MsgId");
-        String msgContent = map.get("Content");
-        String rawMessage = map.get("__raw__");
-
-        AbstractMessage messageReceived = new TextMessage();
-        messageReceived.setMsgType(msgType);
-        messageReceived.setCreateTime(System.currentTimeMillis());
-        messageReceived.setFromUserName(fromUserName);
-        messageReceived.setToUserName(toUserName);
-        messageReceived.setRawMessage(rawMessage);
-
-        return messageReceived;
     }
 
     private String getContentFromAbstractMessage(AbstractMessage message) {

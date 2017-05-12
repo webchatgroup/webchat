@@ -1,9 +1,12 @@
 package com.dev3.app.entity;
 
+import com.dev3.app.web.WeChatMessageUtil;
 import com.thoughtworks.xstream.annotations.XStreamInclude;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by A022713 on 2017/4/21.
@@ -11,9 +14,9 @@ import java.io.Serializable;
 @Entity
 @Table(name = "message")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class AbstractMessage implements Serializable {
+public class AbstractMessage implements Serializable {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
 
     /**
@@ -33,7 +36,10 @@ public abstract class AbstractMessage implements Serializable {
      */
     private String MsgType;
 
+    @Column(length = 4000)
     private String RawMessage;
+
+    private Date LogTime;
 
     public Long getId() {
         return Id;
@@ -81,5 +87,45 @@ public abstract class AbstractMessage implements Serializable {
 
     public void setRawMessage(String rawMessage) {
         RawMessage = rawMessage;
+    }
+
+    public Date getLogTime() {
+        return LogTime;
+    }
+
+    public void setLogTime(Date logTime) {
+        LogTime = logTime;
+    }
+
+    public static AbstractMessage parse(String content) {
+        return parse(content, AbstractMessage.class);
+    }
+
+    public static <T extends AbstractMessage> T parse(String content, Class<T> clazz) {
+        Map<String, String> map = WeChatMessageUtil.xmlToMap(content);
+
+        String fromUserName = map.get("FromUserName");
+        String toUserName = map.get("ToUserName");
+        String msgType = map.get("MsgType");
+        String rawMessage = map.get("__raw__");
+
+        T messageReceived = null;
+
+        try {
+            messageReceived = (T) clazz.newInstance();
+
+            messageReceived.setMsgType(msgType);
+            messageReceived.setCreateTime(System.currentTimeMillis());
+            messageReceived.setFromUserName(fromUserName);
+            messageReceived.setToUserName(toUserName);
+            messageReceived.setRawMessage(rawMessage);
+            messageReceived.setLogTime(new Date());
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        return messageReceived;
     }
 }
