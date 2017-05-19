@@ -1,7 +1,7 @@
 package com.dev3.app.interceptor;
 
 import com.dev3.app.entity.TextMessage;
-import com.dev3.app.repositoriy.TextMessageRepository;
+import com.dev3.app.repositoriy.ITextMessageRepository;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -22,7 +22,7 @@ public class TextMessageHandlerInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(TextMessageHandlerInterceptor.class);
 
     @Autowired
-    private TextMessageRepository textMessageRepository;
+    private ITextMessageRepository textMessageRepository;
 
     @Value("${spring.profiles}")
     private String env;

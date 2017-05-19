@@ -3,7 +3,7 @@ package com.dev3.app.handler;
 import com.dev3.app.entity.AbstractMessage;
 import com.dev3.app.entity.MessageType;
 import com.dev3.app.entity.TextMessage;
-import com.dev3.app.repositoriy.TextMessageRepository;
+import com.dev3.app.repositoriy.ITextMessageRepository;
 import com.dev3.app.web.WeChatMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;

@@ -10,16 +10,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.dev3.app.entity.AbstractMessage;
-import com.thoughtworks.xstream.io.xml.Dom4JDriver;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 
-import com.dev3.app.entity.TextMessage;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.Dom4JDriver;
 
 public class WeChatMessageUtil {
     /**

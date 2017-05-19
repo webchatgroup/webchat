@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dev3.app.processor.IMessageProcessor;
-import com.dev3.app.repositoriy.TextMessageRepository;
+import com.dev3.app.repositoriy.ITextMessageRepository;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
