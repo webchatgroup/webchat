@@ -2,6 +2,10 @@ package com.dev3.app.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.dev3.app.entity.Suggestion;
@@ -38,7 +42,18 @@ public class SuggestionService implements ISuggestionService {
 	@Override
 	public List<Suggestion> getSugggestions(String sortBy) {
 		
+		
+		
 		return suggestionRepository.findAll();//TODO sorting
+		
+	}
+
+	@Override
+	public Page<Suggestion> getSuggestions(Pageable pageable) {
+		
+		Page<Suggestion> p = suggestionRepository.findAll(pageable);
+		
+		return p; 
 		
 	}
 

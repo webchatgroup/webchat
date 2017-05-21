@@ -1,19 +1,24 @@
 package com.dev3.app.web.controller;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dev3.app.entity.Suggestion;
-import com.dev3.app.entity.TextMessage;
-import com.dev3.app.repositoriy.ITextMessageRepository;
 import com.dev3.app.service.ISuggestionService;
+import com.dev3.app.web.PageWrapper;
 
+/**
+ * @author kingswood
+ */
 @Controller
 public class SuggestionController {
 	
@@ -27,12 +32,25 @@ public class SuggestionController {
 	}
 	
 	@RequestMapping("/suggestionList")
-	public String suggestionList(@RequestParam(value="name", required=false, defaultValue="World") String name,Model model) {
+	public String suggestionList(@RequestParam(value = "page", defaultValue = "0") Integer page,Pageable pageable,Model model) {
+		
+		int pageNum = page.intValue();
 		
 		
-		List<Suggestion> suggestions = suggestionService.getSugggestions(null);
+		Page<Suggestion> p = suggestionService.getSuggestions(pageable);
+		
+		List<Suggestion> suggestions = new ArrayList<>();
+		
+		Iterator<Suggestion> it = p.iterator();
+		
+		while(it.hasNext()){
+			suggestions.add(it.next());
+		}
+		
+		PageWrapper<Suggestion> pageWrapper = new PageWrapper<>(p, "suggestionList");
 		
 		model.addAttribute("suggestions", suggestions);
+		model.addAttribute("page", pageWrapper);
 		
 		return "suggestionList"; 
 	}

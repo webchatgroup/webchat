@@ -1,4 +1,13 @@
 insert into suggestion(content, create_date, status) values("Can you raise my salary?", curdate(), 1);
 insert into suggestion(content, create_date, status) values("Can you change the seat?", curdate(), 1);
 insert into suggestion(content, create_date, status) values("Can you take the chance?", curdate(), 1);
+insert into suggestion(content, create_date, status) values("Can you take the chance2?", curdate(), 1);
+insert into suggestion(content, create_date, status) values("Can you take the chance3?", curdate(), 1);
+insert into suggestion(content, create_date, status) values("Can you take the chance4?", curdate(), 1);
+insert into suggestion(content, create_date, status) values("Can you take the chance5?", curdate(), 1);
+insert into suggestion(content, create_date, status) values("Can you take the chance6?", curdate(), 1);
+insert into suggestion(content, create_date, status) values("Can you take the chance7?", curdate(), 1);
+insert into suggestion(content, create_date, status) values("Can you take the chance8?", curdate(), 1);
+insert into suggestion(content, create_date, status) values("Can you take the chance9?", curdate(), 1);
+insert into suggestion(content, create_date, status) values("Can you take the chance10?", curdate(), 1);
 commit;
