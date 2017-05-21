@@ -27,7 +27,7 @@ public class SuggestionController {
 	}
 	
 	@RequestMapping("/suggestionList")
-	public String suggestionList(Model model) {
+	public String suggestionList(@RequestParam(value="name", required=false, defaultValue="World") String name,Model model) {
 		
 		
 		List<Suggestion> suggestions = suggestionService.getSugggestions(null);
