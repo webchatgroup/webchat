@@ -35,11 +35,11 @@ public class SuggestionController {
 	
 	
 	@RequestMapping("/doCreateSuggestion")
-	public String createSuggestion(){
+	public String createSuggestion(@RequestParam(name="txtSuggestion")String suggestion){
 		
 		System.out.println("calling createSuggestion");
 		
-		return null;
+		return "ok";
 	}
 	
 	@RequestMapping("/suggestionList")
