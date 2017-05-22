@@ -33,6 +33,15 @@ public class SuggestionController {
 		
 	}
 	
+	
+	@RequestMapping("/doCreateSuggestion")
+	public String createSuggestion(){
+		
+		System.out.println("calling createSuggestion");
+		
+		return null;
+	}
+	
 	@RequestMapping("/suggestionList")
 	public String suggestionList(@PageableDefault(value = 10)Pageable pageable,Model model) {
 		
