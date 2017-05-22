@@ -4,7 +4,7 @@
 package com.dev3.app.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -28,6 +28,10 @@ import javax.persistence.Table;
 public class Suggestion implements Serializable {
 	
 	private static final long serialVersionUID = 9062390667795966129L;
+	
+	public static final int STATUS_NEW = 1;
+	public static final int STATUS_REPLIED = 2;
+	public static final int STATUS_DELETED = 3;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

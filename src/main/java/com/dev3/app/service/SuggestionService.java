@@ -23,8 +23,10 @@ public class SuggestionService implements ISuggestionService {
 	
 	@Override
 	public int addSuggestion(Suggestion suggestion) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		Suggestion newSuggestion = this.suggestionRepository.save(suggestion);
+		
+		return newSuggestion.getId();
 	}
 
 	@Override

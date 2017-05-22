@@ -111,7 +111,7 @@
 
 								<div class="form-group">
 									<label for="message-text" class="control-label">Suggestion:</label>
-									<textarea id="txtSuggestion" class="form-control"></textarea>
+									<textarea id="txtSuggestion" name="txtSuggestion" class="form-control"></textarea>
 								</div>
 							</form>
 						</div>
@@ -239,21 +239,29 @@
 		 */
 
 	});
+	
+	$(function(){
+	    $('#suggestionForm').on('submit', function(e){
+	        e.preventDefault();
+	        $.ajax({
+	            url: "doCreateSuggestion", //this is the submit URL
+	            type: 'POST', //or POST
+	            data: $('#suggestionForm').serialize(),
+	            success: function(data){
+	            	alert("ok");
+	                 //alert('successfully submitted')
+	            },
+	            error:function(){
+	            	alert("failure");
+	            }
+	        });
+	    });
+	});
 
 	// function to submit suggestion form
 	$(function() {
 		$("button#btnCreateSuggestion").click(function() {
-			$.ajax({
-				type : "POST",
-				url : "doCreateSuggestion",
-				data : $('suggestionForm.txtSuggestion').serialize(),
-				success : function(msg) {
-					alert("ok")
-				},
-				error : function() {
-					alert("failure");
-				}
-			});
+			$('#suggestionForm').submit();
 		});
 	});
 </script>
