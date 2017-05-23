@@ -248,8 +248,8 @@
 	            type: 'POST', //or POST
 	            data: $('#suggestionForm').serialize(),
 	            success: function(data){
-	            	alert("ok");
-	                 //alert('successfully submitted')
+	            	$('.newSuggestionModel').modal('hide');
+	            	location.reload();
 	            },
 	            error:function(){
 	            	alert("failure");
