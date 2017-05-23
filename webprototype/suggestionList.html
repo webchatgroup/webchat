@@ -92,7 +92,7 @@
 				</div>
 			</nav>
 
-			<!-- New Suggestion Modal -->
+			<!-- New Suggestion Model -->
 
 			<div class="modal fade newSuggestionModel" tabindex="-1"
 				role="dialog" aria-labelledby="">
@@ -111,48 +111,19 @@
 
 								<div class="form-group">
 									<label for="message-text" class="control-label">Suggestion:</label>
-									<textarea id="txtSuggestion" name="txtSuggestion"
-										class="form-control"></textarea>
+									<textarea id="txtSuggestion" name="txtSuggestion" class="form-control"></textarea>
 								</div>
 							</form>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">Close</button>
-							<button type="button" id="btnCreateSuggestion"
-								class="btn btn-primary">Create</button>
+							<button type="button" id="btnCreateSuggestion" class="btn btn-primary">Create</button>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- New Sugegstion Modal ends -->
-
-
-
-			<!-- Delete suggestion modal -->
-			<div class="modal fade deleteSuggestionModal" tabindex="-1"
-				role="dialog" aria-labelledby="">
-				<div class="modal-dialog modal-sm" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-							<h9 class="modal-title" id="gridSystemModalLabel">Are you
-							sure to delete this suggestion?</h9>
-						</div>
-						<div class="modal-body">
-							<button type="button" class="btn btn-primary btn-xs">Yes</button>
-							&nbsp;&nbsp;
-							<button type="button" class="btn btn-primary btn-xs">No</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- Delete suggestion modal ends -->
-
-
+			<!-- New Sugegstion Model ends -->
 			<div class="content">
 				<div class="container-fluid">
 					<div class="row">
@@ -178,8 +149,8 @@
 										<td th:text="${suggestion.status}"></td>
 										<td style="text-align: right">
 											<button type="button" class="btn btn-primary btn-xs">Reply</button>&nbsp;&nbsp;
-											<button class="btn btn-primary btn-xs" data-toggle="modal"
-												data-target=".deleteSuggestionModal">Delete</button>
+											<button class="btn btn-primary btn-xs" data-toggle="confirmation">Delete</button>
+											<button class="btn btn-default" data-toggle="confirmation">Confirmation</button>
 										</td>
 									</tr>
 
@@ -228,13 +199,15 @@
 
 		</div>
 	</div>
+
+
 </body>
 
 <!--   Core JS Files   -->
-<script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="assets/js/jquery-1.11.0.min.js" type="text/javascript"></script>
 <script src="assets/js/bootstrap.js" type="text/javascript"></script>
 
-
+<script src="assets/js/bootstrap-confirmation2.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -242,23 +215,23 @@
 		demo.initChartist();
 
 	});
-
-	$(function() {
-		$('#suggestionForm').on('submit', function(e) {
-			e.preventDefault();
-			$.ajax({
-				url : "doCreateSuggestion", //this is the submit URL
-				type : 'POST', //or POST
-				data : $('#suggestionForm').serialize(),
-				success : function(data) {
-					$('.newSuggestionModel').modal('hide');
-					location.reload();
-				},
-				error : function() {
-					alert("failure");
-				}
-			});
-		});
+	
+	$(function(){
+	    $('#suggestionForm').on('submit', function(e){
+	        e.preventDefault();
+	        $.ajax({
+	            url: "doCreateSuggestion", //this is the submit URL
+	            type: 'POST', //or POST
+	            data: $('#suggestionForm').serialize(),
+	            success: function(data){
+	            	$('.newSuggestionModel').modal('hide');
+	            	location.reload();
+	            },
+	            error:function(){
+	            	alert("failure");
+	            }
+	        });
+	    });
 	});
 
 	// function to submit suggestion form
