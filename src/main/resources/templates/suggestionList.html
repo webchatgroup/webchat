@@ -127,10 +127,44 @@
 			</div>
 			<!-- New Sugegstion Modal ends -->
 
+			
+			<!-- New Reply Modal -->
 
+			<div class="modal fade" id="addReplyModal" tabindex="-1"
+				role="dialog" aria-labelledby="">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4 class="modal-title" id="exampleModalLabel">Add Reply</h4>
+						</div>
+						<div class="modal-body">
+							<form id="replyForm">
+								<input type="hidden" id="replySuggestionId" name="replySuggestionId" value="" />
+								<div class="form-group">
+									<label for="message-text" class="control-label">Reply:</label>
+									<textarea id="txtReply" name="txtReply"
+										class="form-control"></textarea>
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">Close</button>
+							<button type="button" id="btnCreateReply"
+								class="btn btn-primary">Create</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- New Reply Modal ends -->
+			
 
 			<!-- Delete suggestion modal -->
-			<div class="modal fade deleteSuggestionModal" tabindex="-1"
+			<div class="modal fade" id="deleteSuggestionModal" tabindex="-1"
 				role="dialog" aria-labelledby="">
 				<div class="modal-dialog modal-sm" role="document">
 					<div class="modal-content">
@@ -143,12 +177,16 @@
 							sure to delete this suggestion?</h9>
 						</div>
 						<div class="modal-body">
-							<button type="button" class="btn btn-primary btn-xs">Yes</button>
+							<button type="button" id="btnDoDeleteSuggesion"
+								class="btn btn-primary btn-xs">Yes</button>
 							&nbsp;&nbsp;
-							<button type="button" class="btn btn-primary btn-xs">No</button>
+							<button type="button" class="btn btn-primary btn-xs" data-dismiss="modal">No</button>
 						</div>
 					</div>
 				</div>
+				<form id="deleteSuggestionForm">
+					<input type="hidden" id="deleteSuggestionId" name="deleteSuggestionId" value="" />
+				</form>
 			</div>
 			<!-- Delete suggestion modal ends -->
 
@@ -163,7 +201,7 @@
 										<th style="width: 5%"></th>
 										<th style="width: 50%">Suggestion</th>
 										<th style="width: 20%">Submit Date</th>
-										<th style="width: 10%">Replied</th>
+										<th style="width: 10%">Menager's Reply</th>
 										<th style="width: 15%; text-align: right;"><button
 												type="button" data-toggle="modal"
 												data-target=".newSuggestionModel" class="btn btn-primary">
@@ -177,9 +215,17 @@
 										<td th:text="${suggestion.createDate}"></td>
 										<td th:text="${suggestion.status}"></td>
 										<td style="text-align: right">
-											<button type="button" class="btn btn-primary btn-xs">Reply</button>&nbsp;&nbsp;
-											<button class="btn btn-primary btn-xs" data-toggle="modal"
-												data-target=".deleteSuggestionModal">Delete</button>
+											
+											
+											<button id="btnAddReply"
+												class="btn btn-primary btn-xs" data-toggle="modal"
+												data-target="#addReplyModal"
+												th:attr="data-id=${suggestion.id}">Reply</button>
+											&nbsp;&nbsp;
+											<button id="btnDeleteSuggesion"
+												class="btn btn-primary btn-xs" data-toggle="modal"
+												data-target="#deleteSuggestionModal"
+												th:attr="data-id=${suggestion.id}">Delete</button>
 										</td>
 									</tr>
 
@@ -243,28 +289,79 @@
 
 	});
 
-	$(function() {
-		$('#suggestionForm').on('submit', function(e) {
-			e.preventDefault();
-			$.ajax({
-				url : "doCreateSuggestion", //this is the submit URL
-				type : 'POST', //or POST
-				data : $('#suggestionForm').serialize(),
-				success : function(data) {
-					$('.newSuggestionModel').modal('hide');
-					location.reload();
-				},
-				error : function() {
-					alert("failure");
-				}
-			});
+	$('#suggestionForm').on('submit', function(e) {
+		e.preventDefault();
+		$.ajax({
+			url : "doCreateSuggestion", //this is the submit URL
+			type : 'POST', //or POST
+			data : $('#suggestionForm').serialize(),
+			success : function(data) {
+				$('.newSuggestionModel').modal('hide');
+				location.reload();
+			},
+			error : function() {
+				alert("failure");
+			}
+		});
+	});
+	
+	$('#replyForm').on('submit', function(e) {
+		e.preventDefault();
+		$.ajax({
+			url : "doCreateReply", //this is the submit URL
+			type : 'POST', //or POST
+			data : $('#replyForm').serialize(),
+			success : function(data) {
+				$('.addReplyModal').modal('hide');
+				location.reload();
+			},
+			error : function() {
+				alert("failure");
+			}
 		});
 	});
 
 	// function to submit suggestion form
-	$(function() {
-		$("button#btnCreateSuggestion").click(function() {
-			$('#suggestionForm').submit();
+	$("button#btnCreateSuggestion").click(function() {
+		$('#suggestionForm').submit();
+	});
+
+	$("#btnDoDeleteSuggesion").click(function() {
+		$('#deleteSuggestionForm').submit();
+	});
+
+	$("#btnCreateReply").click(function() {
+		$('#replyForm').submit();
+	});
+	
+
+	$("#deleteSuggestionModal").on("show.bs.modal", function(event) {
+		var button = $(event.relatedTarget); // the delete button
+		var suggestionId = button.data('id')
+		$("#deleteSuggestionId").val(suggestionId);
+	});
+	
+	$("#addReplyModal").on("show.bs.modal", function(event) {
+		var button = $(event.relatedTarget); // the delete button
+		var suggestionId = button.data('id')
+		$("#replySuggestionId").val(suggestionId);
+	});
+	
+
+	$('#deleteSuggestionForm').on('submit', function(e) {
+		
+		e.preventDefault();
+		$.ajax({
+			url : "doDeleteSuggestion", 
+			type : 'POST', 
+			data : $('#deleteSuggestionForm').serialize(),
+			success : function(data) {
+				$('#deleteSuggestionModal').modal('hide');
+				location.reload();
+			},
+			error : function() {
+				alert("failure");
+			}
 		});
 	});
 </script>

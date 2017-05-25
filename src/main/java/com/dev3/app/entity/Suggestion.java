@@ -33,6 +33,9 @@ public class Suggestion implements Serializable {
 	public static final int STATUS_REPLIED = 2;
 	public static final int STATUS_DELETED = 3;
 	
+	public static final int SENT = 1;
+	public static final int NOTSENT = 2;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -42,6 +45,10 @@ public class Suggestion implements Serializable {
 	private Date createDate;
 	
 	private int status;
+	
+	private int likes;
+	
+	private int isSent;
 	
 	
 	@OneToMany(targetEntity=SuggestionReply.class, mappedBy="suggestion", fetch=FetchType.EAGER)
@@ -77,6 +84,18 @@ public class Suggestion implements Serializable {
 	}
 	public void setReplies(List<SuggestionReply> replies) {
 		this.replies = replies;
+	}
+	public int getLikes() {
+		return likes;
+	}
+	public void setLikes(int likes) {
+		this.likes = likes;
+	}
+	public int getIsSent() {
+		return isSent;
+	}
+	public void setIsSent(int isSent) {
+		this.isSent = isSent;
 	}
 	
 	

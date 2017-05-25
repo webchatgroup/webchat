@@ -16,8 +16,12 @@ public interface ISuggestionService {
 	
 	public Page<Suggestion> getSuggestions(Pageable pageable);
 	
-	public int removeSuggestion(int suggestionId);
+	public void removeSuggestion(int suggestionId);
 	
 	public List<Suggestion> getSugggestions(String sortBy);
+	
+	public void updateSuggestionStatus(int suggestionId, int status);
+	
+	public void addReply(int suggestionId, String reply);
 	
 }

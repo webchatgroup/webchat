@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,6 +39,28 @@ public class SuggestionController {
 
 		this.suggestionService = suggestionService;
 
+	}
+	
+	
+	@RequestMapping(value="/doCreateReply", method=RequestMethod.POST, produces="application/text")
+	@ResponseBody
+	public String doCreateReply(@RequestParam Map<String,String> requestParams){
+		
+		String reply = requestParams.get("txtReply");
+		String suggestionId = requestParams.get("replySuggestionId");
+		
+		suggestionService.addReply(Integer.parseInt(suggestionId), reply);
+		
+		return "ok";
+	}
+	
+	@RequestMapping(value="/doDeleteSuggestion", method=RequestMethod.POST, produces="application/text")
+	@ResponseBody
+	public String doDeleteSuggestion(@RequestParam(name = "deleteSuggestionId", defaultValue="") String suggestionId){
+		
+		suggestionService.removeSuggestion(Integer.parseInt(suggestionId));
+		
+		return "ok";
 	}
 
 	@RequestMapping(value = "/doCreateSuggestion", method = RequestMethod.POST, produces = "application/text")
