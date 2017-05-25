@@ -3,6 +3,7 @@ package com.dev3.app.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "suggestion_reply")
@@ -21,6 +24,8 @@ public class SuggestionReply implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;	
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(columnDefinition="DATETIME")
 	private Date createDate;
 	
 	private String content;
