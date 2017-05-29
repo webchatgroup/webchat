@@ -18,8 +18,6 @@ public interface ISuggestionService {
 	
 	public void removeSuggestion(int suggestionId);
 	
-	public List<Suggestion> getSugggestions(String sortBy);
-	
 	public void updateSuggestionStatus(int suggestionId, int status);
 	
 	public void addReply(int suggestionId, String reply);
