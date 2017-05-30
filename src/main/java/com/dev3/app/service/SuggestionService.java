@@ -75,7 +75,6 @@ public class SuggestionService implements ISuggestionService {
 
 	@Override
 	public Page<Suggestion> getSuggestions(Pageable pageable) {
-
 		
 		Page<Suggestion> p = suggestionRepository.findAll(isNotDeleted(), pageable);
 
