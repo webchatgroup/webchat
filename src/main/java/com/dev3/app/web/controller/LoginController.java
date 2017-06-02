@@ -1,7 +1,9 @@
 package com.dev3.app.web.controller;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.dev3.app.entity.User;
 import com.dev3.app.repositoriy.IUserRepository;
@@ -39,7 +42,7 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/doLogin", method = RequestMethod.POST)
-	public String doLogin(String userId, String password, Model model, HttpSession session) {
+	public String doLogin(String userId, String password, Model model, HttpSession session, HttpServletResponse response) {
 		
 		User user = userService.findByUserId(userId);
 		
@@ -60,7 +63,15 @@ public class LoginController {
 		
 		session.setAttribute("user", user);					
 		
-		return "index";
+		return "redirect:suggestionList";
+	}
+	
+	@RequestMapping(value="/doLogout", method = RequestMethod.GET)
+	public String doLogout(HttpSession session){
+		
+		session.removeAttribute("user");
+		
+		return "login";
 	}
 
 }

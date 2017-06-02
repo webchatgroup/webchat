@@ -7,7 +7,7 @@ import com.dev3.app.entity.User;
 
 public interface IUserRepository extends JpaRepository<User, Integer> {
 
-	@Query("select u from user u where u.user_id=?1")
+	@Query("select u from User u where u.userId=?1")
 	User findByUserId(String userId);
 
 }
