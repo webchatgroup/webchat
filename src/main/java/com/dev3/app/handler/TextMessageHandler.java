@@ -2,13 +2,17 @@ package com.dev3.app.handler;
 
 import com.dev3.app.entity.AbstractMessage;
 import com.dev3.app.entity.MessageType;
+import com.dev3.app.entity.Suggestion;
 import com.dev3.app.entity.TextMessage;
+import com.dev3.app.repositoriy.ISuggestionRepository;
 import com.dev3.app.repositoriy.ITextMessageRepository;
+import com.dev3.app.service.ISuggestionService;
 import com.dev3.app.web.WeChatMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
@@ -19,15 +23,27 @@ import java.util.UUID;
 public class TextMessageHandler extends AbsMessageHandler<TextMessage, TextMessage> {
     //@Autowired
     //private TextMessageRepository textMessageRepository;
-
+	
+	@Autowired
+	private ISuggestionService suggestionService;
+	
     @Override
     public TextMessage handleMessage(TextMessage message) {
         TextMessage requestMessage = message, responseMessage = null;
 
         if (requestMessage != null) {
             //this.textMessageRepository.save(requestMessage);
-
+        	
             responseMessage = this.getReplyTextMessage(requestMessage);
+            
+            Suggestion suggestion = new Suggestion();
+            suggestion.setContent(message.getContent());
+            suggestion.setCreateDate(new Date());
+            suggestion.setHasReply(false);
+            suggestion.setLikes(0);
+            suggestion.setStatus(Suggestion.STATUS_NEW);
+            
+            suggestionService.addSuggestion(suggestion);
 
             //this.textMessageRepository.save(responseMessage);
         }

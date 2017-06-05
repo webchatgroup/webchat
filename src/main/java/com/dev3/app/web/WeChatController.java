@@ -37,6 +37,9 @@ public class WeChatController {
     @ResponseBody
     @RequestMapping(method = {RequestMethod.POST})
     public void processMessage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	
+    	System.out.println("calling processMessage");
+    	
         messageProcessor.process(request, response, null);
 
         /*
