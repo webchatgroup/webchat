@@ -6,10 +6,11 @@ import org.springframework.stereotype.Component;
 
 import com.dev3.app.entity.AbstractMessage;
 import com.dev3.app.entity.EventMessage;
+import com.dev3.app.entity.TextMessage;
 import com.dev3.app.web.WeChatMessageUtil;
 
 @Component
-public class EventMessageResolver implements IMessageResolver<EventMessage, EventMessage> {
+public class EventMessageResolver implements IMessageResolver<EventMessage, TextMessage> {
 
 	@Override
 	public EventMessage getParsedIncomingMessage(AbstractMessage message) {
@@ -26,7 +27,7 @@ public class EventMessageResolver implements IMessageResolver<EventMessage, Even
 	}
 
 	@Override
-	public AbstractMessage getParsedOutgoingmessage(EventMessage message) {
+	public AbstractMessage getParsedOutgoingmessage(TextMessage message) {
 		return message;
 	}
 
