@@ -36,11 +36,11 @@ public class TextMessageHandler extends AbsMessageHandler<TextMessage, TextMessa
 			if (requestMessage.getContent() != null && requestMessage.getContent().startsWith("意见-")) {
 
 				// this.textMessageRepository.save(requestMessage);
-
+				String content = requestMessage.getContent().replaceAll("意见-", "");
 				responseMessage = this.getReplyTextMessage(requestMessage);
 
 				Suggestion suggestion = new Suggestion();
-				suggestion.setContent(message.getContent());
+				suggestion.setContent(content);
 				suggestion.setCreateDate(new Date());
 				suggestion.setHasReply(false);
 				suggestion.setLikes(0);
@@ -65,7 +65,7 @@ public class TextMessageHandler extends AbsMessageHandler<TextMessage, TextMessa
 		replyMessage.setFromUserName(requestMessage.getToUserName());
 		replyMessage.setCreateTime(System.currentTimeMillis());
 		replyMessage.setMsgId(UUID.randomUUID().toString());
-		replyMessage.setContent(String.format("回复: %1$s", requestMessage.getContent()));
+		replyMessage.setContent("感谢你的宝贵意见，请在周报中查看回复信息，谢谢。");
 		replyMessage.setRawMessage(WeChatMessageUtil.textMessageToXml(replyMessage, TextMessage.class));
 
 		return replyMessage;
