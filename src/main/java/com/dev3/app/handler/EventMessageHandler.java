@@ -27,7 +27,7 @@ public class EventMessageHandler extends AbsMessageHandler<EventMessage, TextMes
         replyMessage.setFromUserName(requestMessage.getToUserName());
         replyMessage.setCreateTime(System.currentTimeMillis());
         replyMessage.setMsgId(UUID.randomUUID().toString());
-        replyMessage.setContent(String.format("回复: %1$s", "感谢关注sits3公众平台"));
+        replyMessage.setContent("感谢关注Volvo Tianjin SITS3公众平台\\n公众号现提供如下功能\\n1.发送匿名意见\\n回复\"意见-xxxxx\"提交你的意见");
         replyMessage.setRawMessage(WeChatMessageUtil.textMessageToXml(replyMessage, TextMessage.class));
 
         return replyMessage;

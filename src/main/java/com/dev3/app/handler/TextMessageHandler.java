@@ -21,47 +21,53 @@ import java.util.UUID;
  */
 @Service(MessageType.MESSAGE_TEXT)
 public class TextMessageHandler extends AbsMessageHandler<TextMessage, TextMessage> {
-    //@Autowired
-    //private TextMessageRepository textMessageRepository;
-	
+	// @Autowired
+	// private TextMessageRepository textMessageRepository;
+
 	@Autowired
 	private ISuggestionService suggestionService;
-	
-    @Override
-    public TextMessage handleMessage(TextMessage message) {
-        TextMessage requestMessage = message, responseMessage = null;
 
-        if (requestMessage != null) {
-            //this.textMessageRepository.save(requestMessage);
-        	
-            responseMessage = this.getReplyTextMessage(requestMessage);
-            
-            Suggestion suggestion = new Suggestion();
-            suggestion.setContent(message.getContent());
-            suggestion.setCreateDate(new Date());
-            suggestion.setHasReply(false);
-            suggestion.setLikes(0);
-            suggestion.setStatus(Suggestion.STATUS_NEW);
-            
-            suggestionService.addSuggestion(suggestion);
+	@Override
+	public TextMessage handleMessage(TextMessage message) {
+		TextMessage requestMessage = message, responseMessage = null;
 
-            //this.textMessageRepository.save(responseMessage);
-        }
+		if (requestMessage != null) {
 
-        return responseMessage;
-    }
+			if (requestMessage.getContent() != null && requestMessage.getContent().startsWith("意见-")) {
 
-    private TextMessage getReplyTextMessage(TextMessage requestMessage) {
-        TextMessage replyMessage = new TextMessage();
+				// this.textMessageRepository.save(requestMessage);
 
-        replyMessage.setMsgType(MessageType.MESSAGE_TEXT);
-        replyMessage.setToUserName(requestMessage.getFromUserName());
-        replyMessage.setFromUserName(requestMessage.getToUserName());
-        replyMessage.setCreateTime(System.currentTimeMillis());
-        replyMessage.setMsgId(UUID.randomUUID().toString());
-        replyMessage.setContent(String.format("回复: %1$s", requestMessage.getContent()));
-        replyMessage.setRawMessage(WeChatMessageUtil.textMessageToXml(replyMessage, TextMessage.class));
+				responseMessage = this.getReplyTextMessage(requestMessage);
 
-        return replyMessage;
-    }
+				Suggestion suggestion = new Suggestion();
+				suggestion.setContent(message.getContent());
+				suggestion.setCreateDate(new Date());
+				suggestion.setHasReply(false);
+				suggestion.setLikes(0);
+				suggestion.setStatus(Suggestion.STATUS_NEW);
+
+				suggestionService.addSuggestion(suggestion);
+			}else{
+				
+			}
+
+			// this.textMessageRepository.save(responseMessage);
+		}
+
+		return responseMessage;
+	}
+
+	private TextMessage getReplyTextMessage(TextMessage requestMessage) {
+		TextMessage replyMessage = new TextMessage();
+
+		replyMessage.setMsgType(MessageType.MESSAGE_TEXT);
+		replyMessage.setToUserName(requestMessage.getFromUserName());
+		replyMessage.setFromUserName(requestMessage.getToUserName());
+		replyMessage.setCreateTime(System.currentTimeMillis());
+		replyMessage.setMsgId(UUID.randomUUID().toString());
+		replyMessage.setContent(String.format("回复: %1$s", requestMessage.getContent()));
+		replyMessage.setRawMessage(WeChatMessageUtil.textMessageToXml(replyMessage, TextMessage.class));
+
+		return replyMessage;
+	}
 }
