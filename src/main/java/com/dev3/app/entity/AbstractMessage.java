@@ -15,7 +15,10 @@ import java.util.Map;
 @Table(name = "message")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class AbstractMessage implements Serializable {
-    @Id
+
+	private static final long serialVersionUID = -5600821006352908996L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
 
