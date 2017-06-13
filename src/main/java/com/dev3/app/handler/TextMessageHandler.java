@@ -67,7 +67,10 @@ public class TextMessageHandler extends AbsMessageHandler<TextMessage, TextMessa
 		replyMessage.setMsgId(UUID.randomUUID().toString());
 		replyMessage.setContent("感谢你的宝贵意见，请在周报中查看回复信息，谢谢。");
 		replyMessage.setRawMessage(WeChatMessageUtil.textMessageToXml(replyMessage, TextMessage.class));
-
+		
+		System.out.println("toUser : " + requestMessage.getFromUserName());
+		System.out.println("fromUser : " + requestMessage.getToUserName());
+		
 		return replyMessage;
 	}
 }
